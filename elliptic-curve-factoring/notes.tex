@@ -1,0 +1,156 @@
+\documentclass{article}
+
+\input{/home/mrkgnao/math/preamble.tex}
+
+\title{Elliptic curve factoring}
+\author{David, transcribed by Soham}
+\date{July 2016}
+
+\begin{document}
+\maketitle
+ 
+Let $N$ be a large (but not huge) number. Goal: find the factorization of $N$
+into primes on a classical computer.
+
+\begin{enumerate}
+\item Bogofactor.
+\item Simulate Shor's algorithm.
+\item Trial division upto $n-1$.
+\item Trial division upto $\sqrt n$.
+\item Fermat method: try writing $N=x^2-y^2$ nontrivially.
+\item Generalize Fermat to $p$-th powers.
+\item Generalize Fermat by looking at $x,y$ with
+  $$x^2-y^2 \equiv 0 \Mod n $$
+
+\item Take $x>\sqrt N$. If $c$ only has small prime factors, we can assemble a
+  ``difference of squares'' factorization from such $c$. As an example, consider (?) 
+\end{enumerate}
+
+\section{Pollard $p-1$ algorithm}
+$N = pq$. Suppose that $p-1$ is $B$-smooth, but $q-1$ is not. For any
+$a\not\equiv 0\Mod p$ or $\Mod q$, define
+$$M=\prod_{p\leq B}p^{\lfloor \log_p B \rfloor} = \lcm{(1,\ldots,B)}$$
+
+Now choose $a$ randomly and compute $a^M\equiv 1\Mod p$. Usually, we also have
+$a^M\not\equiv 1\Mod q$. Then $\gcd(a^M-1,N)$ will often be a factor of $N$.
+
+\section{Day 2}
+\subsection{Elliptic curves}
+A set of points in the plane defines an elliptic curve if $y^2 = x^3+ax^2+bx+c$.
+This is called Weierstrass form, and it exists in characteristic not equal to
+$2$. In characteristic not $3$, we can change variables further to get $y^2 = x^3+ax+b$.
+
+How many points does an arbitrary line intersect an elliptic curve $E$ in?
+Morally, of course, it should be $3$, by Bézout's theorem. Nic fixed this in his
+colloquium by:
+\begin{itemize}
+\item working over $\C$
+\item using projective coordinates
+\item counting points with multiplicity
+\end{itemize}
+
+We will, instead, prefer to use a group law on the elliptic curve to fix the
+first one, because we want to work over finite fields.
+
+Claim: If a line intersects $E$ in two points (with multiplicity), then it
+intesects in a third point.
+
+This is only true if we are working in some projective space, though. Suppose
+$y^2 = x^3+ax^2+bx+c$. Given $P_1=(x_1,y_1)$ and $P_2 = (x_2,y_2)$, consider the
+line $y=\lambda x+\nu$ through them.
+
+We get, after using the formula $x_1+x_2+x_3 = \lambda^2 - a$, the expression
+
+$$x_3 = \lambda^2 - a - x_1 - x_2$$
+
+where $$\lambda = \frac{y_2-y_1}{x_2-x_1}.$$
+
+This breaks down for $x_2=x_1$. The line we use in such cases is:
+\begin{itemize}
+\item If $P_1=P_2$, we just use the tangent line:
+  $$\lambda = \frac{3x_1^2+2a+b}{2y_1}.$$
+\item For ``vertical'' lines, we use a point $\mathcal O$ at infinity.
+\end{itemize}
+
+\subsection{Projectivization}
+Consider $y^2z = x^3+ax^2z+bxz^2+cz^3$. This is homegeneous upto rescaling, and
+solutions $[x:y:z]$ come up to rescaling. When $z\neq 0$, we can rescale to
+$[x:y:1]$. When $[z=0]$, $x^3 = 0 = x$ so we can rescale to $[0:1:0]$, which we
+will use as the identity for the group law.
+
+\subsection{The group law}
+Let $P\ast Q$ be the third point of intersection of the line through $P$ and $Q$
+with $E$. Then the reflection of $P\ast Q$ across the $x$-axis is called $P+Q$.
+
+\begin{thm}
+ This gives us an abelian group structure on the points of the elliptic curve
+ (including $\mathcal O$).
+\end{thm}
+
+Associativity can be brute-forced, or one can look at the (moduli?) space of
+elliptic curves and use dimension arguments arising from the different
+expressions
+
+$\mathcal O, P, Q, R, P\ast Q, P\ast R, Q\ast R, (P+Q)\ast R, P\ast(Q+R)$
+$C_1,C_2,C_3$ cubics, $C_1,C_2$ intersect in $9$ points, if $C_3$ passes through
+$8$ of those points, then it passes through the $9$th one too.
+
+\section{Day 2}
+\begin{question}
+ If $E$ is an elliptic curve, how many elements does $E(\F_p)$ have? 
+\end{question}
+$y^2=x^3+bx+c$. Heuristically, as $x$ varies, $x^3+bx+c$ is a square in $\F_p$ half of the
+time, so we expect $p+1$ points.
+
+\begin{thm}[Hasse]
+   $|p+1-\#E({\F_p})| \leq 2\sqrt p$.
+\end{thm}
+
+\begin{thm}[Sato-Tate]
+ The distribution of the number of points on non-CM elliptic curves varies with
+ a probability distribution that looks like a semicircle.
+\end{thm}
+
+\begin{defn}
+  $$L_n[a,c] := O(e^{(c+o(1)){(\log n)}^a{(\log \log n)}^{1-a}}).$$
+\end{defn}
+
+In particular, for $a=0$, we get ${(\log n)}^{c+o(1)}$, and for $a=1$, we get $n^{c+o(1)}$.
+
+\section{Day 3}
+Given a curve $E$, find $\#E(\F_p)$.
+
+\begin{enumerate}
+\item For each $x$, determine whether $x^3+ax+b$ is a square mod $p$. Each
+  nonzero square contributes $2$ points.
+\item Pick a random point $P$ on the curve and compute $P,2P,\cdots$ until you
+  reach $\mathcal O$.
+\item ``Baby step --- giant step''. Pick a point $P$ and compute
+  $$P,2P,3P,\cdots.$$
+  Let $Q=-BP$. Now compute
+  $$Q,2Q,3Q,\cdots.$$
+  There is a point that is on both lists. We get that
+  $$iP = -jQ = -jBP,$$
+  so $$(i+Bj)$$ is a multiple of the order of the group.
+\item Let $a=p+1-\#E(\F_p)$.
+  We will find $a\Mod l$ for lots of small primes $l$. Once $\pi l>4\sqrt l$, we
+  can use the Chinese remainder theorem to recover $a$.
+
+  Warmup: Find $a\Mod 2$.
+  $2$ divides $\#E(\F_p)\iff x^3+Ax+B$ has a root $\alpha$ in $\F_p$. We know
+  that any such $\alpha$ has to satisfy $x^p-x$ as well.
+
+  So a root exists iff $\gcd(x^p-x, x^3+Ax+B) = \gcd(x^p\Mod {x^3+Ax+B} - x,
+  x^3+Ax+B) \neq 1$. Modular exponentiation is fast!
+\end{enumerate}
+
+Let us generalize to $p\neq 2$.
+\begin{defn}
+  The \textit{$n$-torsion} $E[n]$ of $E$ is defined as
+  $$E\supset E[n] := \{P\in E(\overline{\F_p}):nP = \mathcal O\}.$$
+\end{defn}
+
+We can try to find $a\Mod l$ by studying $E[l]$. In particular, if $E[l](\F_p)
+\neq 0$ then $l|\#E(\F_p)$.
+
+\end{document}

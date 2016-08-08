@@ -1,0 +1,114 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsthm,amsmath,amsfonts,amssymb}
+
+\usepackage[margin=0.5in]{geometry}
+
+\newcommand{\I}[1]{\mathcal{I}(#1)}
+\newcommand{\V}[1]{\mathcal{V}(#1)}
+\newcommand{\kn}{k[x_1,x_2,\ldots,x_n]}
+\newcommand{\Rn}{R[x_1,x_2,\ldots,x_n]}
+\newcommand{\Af}{{\Bbb A}^n}
+\newcommand{\Ak}{{\Bbb A}_k^n}
+\newcommand{\Akn}[1]{{\Bbb A}_k^#1}
+\newcommand{\ARn}[1]{{\Bbb A}_{\Bbb R}^#1}
+\newcommand{\An}[1]{{\Bbb A}^#1}
+\newcommand{\fr}[1]{\mathfrak #1}
+\newcommand{\C}{\mathbb C}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\Zn}[1]{\mathbb Z_{#1}}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\R}{\mathbb R}
+\newcommand{\chn}[1]{C_\bullet(#1)}
+\newcommand{\bkt}[1]{\langle #1 \rangle}
+
+\newcommand{\ab}{\text{ab}}
+
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\Aut}{Aut}
+
+\newcommand{\fix}[1]{\text{Fix}(#1)}
+
+\theoremstyle{definition}
+\newtheorem*{lem}{Lemma}
+\newtheorem*{thm}{Theorem}
+\newtheorem*{cor}{Corollary}
+\newtheorem*{defn}{Definition}
+
+\title{. . .}
+\author{Soham}
+\date{July 2016}
+
+\begin{document}
+\maketitle
+ 
+\section{Tensor products of characters}
+\begin{thm}
+ The product of any two characters of the same finite group $G$ is again a
+ character of $G$
+\end{thm}
+\begin{proof}
+  The representation is $\rho = \rho_1\otimes\rho_2$. Taking its trace, we get a
+  block-diagonal matrix whose character is
+  $$\chi = \chi_1\chi_2.$$
+\end{proof}
+
+Let's compute the character table of $S_4$. The conjugacy classes are:
+
+There is a natural character that sends a conjugacy class to the number of axes
+in $\C^4$ which it preserves:
+
+\begin{tabular}{l|lllll}
+ $\chi_1$ &$1$  &$1$  &1  &1  &1 \\
+ $\chi_2$ &1  &-1  &1  &-1   &1 \\
+ $\chi_3$ &3  &1  &0   &-1 &-1 \\
+ $\chi_4$ &  &  & & & \\ 
+ $\chi_5$ &  &  & & &
+\end{tabular}
+
+How about squaring $\chi_3$? We get a character that contains a copy of $\chi_1$
+
+$$9,1,0,1,1$$
+
+and subtracting that off, and then doing the same with a copy of $\chi_3$ gives
+
+$$5,-1,-1,1,1$$
+
+But $\bkt{\chi,\chi} = \frac1{24}(25,6,8,6,3)=2$, so it's not irreducible. So it
+must be equal to $\chi_4+\chi_5$. Note that, wlog, $\chi_4=\chi_2\chi_3$. We
+finally get
+
+\begin{tabular}{llllll}
+ $\chi_1$ &1  &1  &1  &1  &1 \\
+$\chi_2$  &1  &-1  &1  &-1   &1 \\
+$\chi_3$  &3  &1  &0   &-1 &-1 \\
+$\chi_4$  &3  &-1  &0  &1 &-1 \\ 
+$\chi_5$  &2  &0  &-1  &0 &2
+\end{tabular}
+
+\section{Induced representations}
+For any subgroup $H$ of a group $G$, and any rep $\rho:H\to GL(V)$, we can
+define a representation of $G$, called the induced representation.
+
+\begin{enumerate}
+\item Find a set of representations for the left cosets of $H$ in $G$., i.e.,
+  decompose $G$ as
+  $$G=eH\cup a_2 H\cup\cdots a_q H,\,q=|G|/|H|$$
+\item The space for our new rep has dimension $dq$. Our new representation
+  $\sigma$ sends $g$ to a $q\times q$ block matrix, where each block is $d\times
+  d$. We put $\rho({a_i^{-1}}g a_j)$ in the $i,j$ block if ${a_i^{-1}}ga_j\in H$ and
+  $0$ otherwise.
+  Note that this is actually a ``block permutation'' matrix.
+\end{enumerate}
+
+\subsection{Example: $S_4\subset S_5$}
+
+Let's look at $S_4$ as a subset of $S_5$, and see what the natural
+representation induces. Decompose $S_5$ as
+
+I originally thought of a $5$-cycle in class, but Mark's better sense prevailed
+and we used $(15)$.
+
+$$S_5 = S_4 \cup (15)S_4\cup (25) S_4\cup (35)S_4 \cup (45)S_4.$$
+
+\end{document}

@@ -1,0 +1,182 @@
+\documentclass{article}
+
+\input{/home/mrkgnao/math/preamble.tex}
+
+\title{Homotopy colimits}
+\author{Chris, transcribed by Soham}
+\date{August 2016}
+\begin{document}
+\maketitle
+
+\section{Day 1}
+\subsection{Preliminaries}
+Categories, functors, examples of categories, product, coproduct
+
+\subsection{Pushouts in $\Top$}
+The pushout of the diagram
+
+has the following universal property:
+
+\begin{example}
+ In $\Top$, pushout is ``gluing together along $C$''. 
+\end{example}
+
+Let $I$ be a (diagram) category (this is the only choice that makes sense), and
+let $\bull A\in \Top^\Ix = [\Ix, \Top]$ be a diagram in $\Top$.
+
+We have a pair of functors
+
+\begin{align*}
+\colim_\Ix: \Top^\Ix &\leftrightarrows \Top :\const \\ 
+  \bull A &\mapsto \colim_\Ix \bull A \\
+  \const T &\leftarrow T
+\end{align*}
+
+Now consider that, in $\Top^\Ix$,
+$\homf{\bull A}{\const T}$ consists of maps from the diagram $\bull A$ to
+``trivial'' diagrams, such that all the squares commute. But we defined $\const$
+in such a way that all the maps in $\const T$ are identity maps, so we get the
+commutativity of squares for free. We can now collapse all the copies of $T$ to
+a single $T$, and we see that an element of $\homf {\bull A}{\const T}$ is
+  basically a way of mapping the diagram $\bull A$ into $T$.
+
+But these ``ways'' all factor through the colimit of the diagram, so all
+we need to uniquely specify one of these is a map $\colim_\Ix{\bull A}\to T$.
+
+Putting these together, we get the remarkable fact that
+
+$$\homf[\Top]{\colim_\Ix{\bull A}}{T} \cong \homf[\Top^\Ix]{\bull A}{\const T},$$
+
+which, in the categorical language, finishes our proof of the fact that
+
+$$\colim_\Ix \dashv \const.$$
+
+Question:
+Can you find all the pieces (intentional vagueness) of a category, a la singular
+homology, by mapping in from diagram categories and ... ?
+
+\section{Day 2}
+\subsection{Topological tools}
+\begin{defn}
+ Two maps $f,g\in\homf[\Top] X Y$ are \textit{homotopic} if there is a continuous
+ map
+ $$H:X\times I\to Y$$
+ etc
+\end{defn}
+
+\begin{defn}
+  Two spaces $X,Y$ are \textit{homotopy equivalent} if there exist maps
+  $$f:X\leftrightarrows Y:g$$
+  with $fg\sim \id_Y$ and $gf\sim\id_X$.
+\end{defn}
+
+\begin{example}
+  Let
+  $$L=\begin{tikzcd}&\bullet\arrow[r]\arrow[d]&\bullet\\ &\bullet\end{tikzcd}$$
+ What is a map in $\Top^L$? 
+\end{example}
+
+We want to find a homotopy invariant functor
+$\hocolim:\Topi\to\Top$
+and look at adjunctions
+$\FF:\CC\leftrightarrows\DD:\GG$
+and how they behave with respect to weak equivalences.
+
+\subsection{Model categories}
+A \textit{model category} $\CC$ has classes of
+
+\begin{itemize}
+\item weak equivalences $\wcc$, ``isos''
+\item fibrations $\fcc$, ``sur''
+\item cofibrations $\cocc$, ``inj''
+\end{itemize}
+
+such that
+
+\begin{itemize}
+\item $\CC$ has all limits and colimits
+\item the classes satisfy $2$-out-of-$3$
+\item cofibrations lift
+\item fibrations lift
+\item there are fibrant and cofibrant replacements
+\item other stuff
+\end{itemize}
+
+Examples:
+
+\begin{itemize}
+\item $\Top$.
+  \begin{itemize}
+  \item $w\Top$: homotopy equivalences
+  \item $co\Top$: inclusions
+  \item $f\Top$: ???
+  \item cofibrant replacements are mapping cylinders
+  \end{itemize}
+
+\item $\Topi$.
+  \begin{itemize}
+  \item $w\Top$: pointwise homotopy equivalences
+  \item $co\Top$: ???
+  \item $f\Top$: 
+  \item cofibrant replacements are mapping cylinders
+  \end{itemize}
+\end{itemize}
+\begin{defn}
+ An object $A$ in a model category $\CC$ is \textit{cofibrant} if the map into
+ it from the initial object is a cofibration. 
+\end{defn}
+
+Why do we care?
+\begin{thm}[Quillen]
+  If $\FF:\CC\leftrightarrows\DD:\GG$ is an adjunction of model categories, such
+  that $\GG$ preserves $\twoheadrightarrow$ and $\isom$, 
+  \begin{itemize}
+  \item $\FF$ preserves cofibrations and trivial cofibrations
+  \item $\FF$ preserves weak equivalences between cofibrant objects
+  \end{itemize}
+\end{thm}
+
+$$\begin{tikzcd}[]
+    & S^1  \ar{rr} \ar{dd} & &   \ast\ar{dd} \\
+    S^1 \ar{ur}\ar[crossing over]{rr} \ar{dd} & & D^2\ar{ur}\\
+      & \ast \ar{rr} & &  \color{red}\ast  \\
+    D^2 \ar{rr} \ar{ur}&& \color{red}{S^2} \ar[color=red,notisom]{ur}\ar[from=uu,crossing over]
+ \end{tikzcd}$$
+
+ \section{Plan of attack}
+ Given $\bull A\in\Topi$, our plan is now to:
+ \begin{itemize}
+ \item Find a cofibrant replacement ${\bull A}'$ of $\bull A$ (weakly equivalent)
+ \item Define
+   $$\hocolim {\bull A} = \colim {{\bull A}'}$$
+ \end{itemize}
+
+ \begin{defn}
+   A small category $I$ is a \textit{directed Reedy category} if there exists a
+   function
+ $$f:\ob I\to\N_0$$
+ such that $\exists b\to a$ implies
+ $$f(a) > f(b).$$
+\end{defn}
+
+Let $i\in I$ be an object. Define a category
+$(I/i)'$
+
+$$\hocolim\left(
+  \begin{tikzcd}
+    &A\ar[r]{f}\ar[d]{g}&B\\&C
+  \end{tikzcd}
+\right)$$
+
+
+$$\hocolim
+  \begin{tikzcd}
+    &X\ar[r]{f}\ar[d]{g}&\ast\\&\ast
+  \end{tikzcd}
+  = \colim
+  \begin{tikzcd}
+    &X\ar[r]{f}\ar[d]{g}&\ast\\&\ast
+  \end{tikzcd}
+$$
+
+\end{document}

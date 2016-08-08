@@ -1,0 +1,212 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsthm,amsmath,amsfonts,amssymb}
+
+\usepackage[margin=0.5in]{geometry}
+
+\newcommand{\I}[1]{\mathcal{I}(#1)}
+\newcommand{\V}[1]{\mathcal{V}(#1)}
+\newcommand{\kn}{k[x_1,x_2,\ldots,x_n]}
+\newcommand{\Rn}{R[x_1,x_2,\ldots,x_n]}
+\newcommand{\Af}{{\Bbb A}^n}
+\newcommand{\Ak}{{\Bbb A}_k^n}
+\newcommand{\Akn}[1]{{\Bbb A}_k^#1}
+\newcommand{\ARn}[1]{{\Bbb A}_{\Bbb R}^#1}
+\newcommand{\An}[1]{{\Bbb A}^#1}
+\newcommand{\fr}[1]{\mathfrak #1}
+\newcommand{\C}{\mathbb C}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\Zn}[1]{\mathbb Z_{#1}}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\R}{\mathbb R}
+\newcommand{\HH}{\mathbb H}
+\newcommand{\F}[1]{\mathbb F_#1}
+\newcommand{\chn}[1]{C_\bullet(#1)}
+\newcommand{\bkt}[1]{\langle #1 \rangle}
+\newcommand{\ttm}[4]{\left[
+  \begin{array}{ c c }
+     #1 & #2 \\
+     #3 & #4
+  \end{array} \right]}
+\newcommand{\ab}{\text{ab}}
+\newcommand{\ut}[1]{{#1}^\times}
+
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Br}{Br}
+
+\newcommand{\fix}[1]{\text{Fix}(#1)}
+
+\theoremstyle{definition}
+\newtheorem*{lem}{Lemma}
+\newtheorem*{prop}{Proposition}
+
+\newtheorem*{thm}{Theorem}
+\newtheorem*{cor}{Corollary}
+\newtheorem*{example}{Example}
+\newtheorem*{defn}{Definition}
+
+\title{Brauer groups}
+\author{Don, transcribed by Soham}
+\date{July 2016}
+
+\begin{document}
+\maketitle
+ 
+\begin{defn}
+ An \textit{algebra} is a vector space with an associative unital multiplication
+ distributing over $+$.
+\end{defn}
+
+Equivalently, (why?)
+
+\begin{defn}
+ An algebra is a ring with a specifically chosen subfield in its center. 
+\end{defn}
+
+\section{Tensor products}
+\begin{defn}
+ A tensor product of two algebras $A$ and $B$ is an algebra $A\otimes B$ with
+ underlying vector space $A\otimes B$, and multiplication
+$$(a_1\otimes b_1)(a_2\otimes b_2) := (a_1a_2)\otimes(b_1b_2).$$
+\end{defn}
+
+\begin{lem}
+ Let $M_i(K)$ be the $K$-algebra of $i\times i$ matrices with entries in $K$.
+ Then, $\forall m, n>0$,
+
+ $$M_n(K)\otimes_K M_m(K) \cong M_{nm}(K)$$
+\end{lem}
+\begin{proof}
+  Note that $M_i(K) \cong \End_K(K^i)$. Given
+  $$\phi\in M_m(K),\psi\in M_n(K),$$
+  $(\phi,\psi)$ gives an element of
+  $$\End_K(K^m\otimes_K K^n) = \End_K(K^{mn}).$$ We get a map
+  $$h:M_m(K)\otimes M_n(K) \to M_{mn}(K)$$
+  which is injective by construction (check) and surjective by dimension reasons.
+\end{proof}
+
+\subsection{Extension of scalars, a.k.a base change}
+Let $A$ be a $k$-algebra, and $F/k$ an extension of fields. Then $A\otimes_k F$
+is an $F$-algebra (in the obvious way). 
+
+\begin{example}
+ $M_n(k)\otimes_k F \cong M_n(F).$ 
+\end{example}
+
+\subsection{Generalized quaternion algebras}
+\begin{defn}
+ Let $k$ be a field $(\text{char } k \neq 2)$. The \textit{generalized quaternion
+   algebra} $(a,b)_k$ is the $4$-dimensional $k$-algebra with the basis
+ $\{1,i,j,ij\}$, under the relations
+ $$i^2 =a, j^2=b,ij=-ji.$$
+\end{defn}
+
+\begin{example}
+  \begin{enumerate}
+  \item $(1,1)_\R \cong M_2(\R)$. 
+  \item $(-1,-1)_\R \cong \HH$.
+  \end{enumerate}
+\end{example}
+
+\begin{thm}
+ $\HH$ is not a matrix algebra. 
+\end{thm}
+\begin{proof}
+ $\dim\HH>1$ and $\HH$ is a division ring. 
+\end{proof}
+
+\begin{prop}
+  If $k$ is a field ($\text{char }k\neq 2$), either $(a,b)_k\cong M_2(k)$ or
+
+  $$(a,b)_k\otimes_k k(\sqrt a) \cong M_2(k(\sqrt a)).$$
+\end{prop}
+\begin{proof}
+  First, note that for $a,b,u\in\ut k$,
+
+  $$(a,b)_k\cong(u^2a, b)_k \text{ and } (a,b)_k \cong (b,a)_k$$
+
+  First assume, wlog, that $b$ is a square. Then $(a,b)_k \cong (1,a)_k \cong
+  M_2(k)$ via the map
+  $$1\mapsto\ttm 1 0 0 1, i\mapsto\ttm 1 0 0 {-1}, j\mapsto\ttm 0 a 1 0,
+  \ij\mapsto \ttm 0 b {-1} 0.$$
+
+  If $a,b$ are not square, the map $(a,b)_k\otimes_k k(\sqrt a) \to M_2(k(\sqrt
+  a))$ is
+
+  $$1\otimes 1\mapsto\ttm 1 0 0 1,
+  i\otimes 1\mapsto\ttm 0 {\sqrt a} {\sqrt a} 0, 
+  j\otimes 1\mapsto\ttm 0 b 1 0, 
+  ij\otimes 1\mapsto\ttm {\sqrt a} 0 0 {b\sqrt a}$$
+
+  Since $a$ and $b$ are not squares, the image is linearly independent, so, by
+  dimension-counting, this map is an iso.
+\end{proof}
+
+\begin{defn}
+ Let $A,B$ be $k$-algebras. $A$ is a \textit{twisted form} of $B$ if there is a finite
+ extension $F/k$ with
+ $$A\otimes_k F \cong B\otimes_k F.$$
+\end{defn}
+
+\begin{defn}
+ An algebra $A$ over a field $K$ is \textit{Brauer} if $A$ is a twisted form of
+ $M_n(k)$ for some $n$. 
+\end{defn}
+
+\begin{lem}
+ Brauer algebras are finite-dimensional. 
+\end{lem}
+\begin{proof}
+ $A\otimes F\cong M_n(F)$.
+\end{proof}
+
+\begin{defn}
+  An algebra is \textit{simple} if it has no nontrivial ($2$-sided) ideals.
+\end{defn}
+\begin{defn}
+ An algerba is \textit{central} if its center is just the base field. 
+\end{defn}
+
+\begin{thm}[Wedderburn-Artin]
+  Let $A$ be an f.d. central simple $k$-algebra. Then there exists an f.d.
+  division ring $D\supset k$ and $n>0$ such that $A\cong M_n(D)$, where $n$ is
+  unique and $D$ is unique upto isomorphism.  
+\end{thm}
+
+\begin{thm}
+ Finite-dimensional division rings over a field are Brauer algebras. 
+\end{thm}
+
+
+\begin{lem}
+ If $k$ is algerbaically closed, all division rings over $k$ are $k$.
+\end{lem}
+
+\begin{defn}
+ The \textit{Brauer group} of a field is the group of Brauer algebras over that
+ field, under the operation $\otimes_k$,
+ up to the equivalence $A\sim M_n(A)$ for all algebras $A$. Equivalently,
+ $A\sim B$ if, for some $m,n>0$,
+ $$A\otimes_k M_n(k)\cong B\otimes_kM_m(k).$$
+\end{defn}
+
+\begin{thm}
+  If $k$ is algebraically closed, $\Br(k) = 0$.
+\end{thm} 
+
+\begin{thm}
+ $\Br(\R)\cong\Z/2$, generated by $[(-1,-1)_\R]$. 
+\end{thm}
+
+\begin{proof}
+  \begin{lem}
+   Any Brauer group equivalence class has exactly one division algebra. 
+  \end{lem}
+  \begin{prop}
+    $\R, \C,\HH $ are all the division rings over $\R$.
+  \end{prop}
+\end{proof}
+
+\end{document}

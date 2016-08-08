@@ -1,0 +1,76 @@
+\documentclass{article}
+
+\input{/home/mrkgnao/math/preamble.tex}
+
+\title{Graph polynomials}
+\author{Jeff/Mia and Mia/Sachi}
+\date{August 2016}
+\begin{document}
+\maketitle
+
+\section{The chromatic polynomial}
+\begin{defn}
+ A \textit{proper graph coloring} is an assignment of colors to vertices such
+ that adjacent vertices are different colors. 
+\end{defn}
+
+\begin{question}
+ Given $x$ colors, how many ways are there to color $G$? 
+\end{question}
+\begin{notation}
+ $P_G(x)$ is defined to be the number of colorings of $G$ using up to $x$ colors. 
+\end{notation}
+
+For $K_n$, this is how it goes:
+\begin{table}[h]
+\centering
+\label{my-label}
+\begin{tabular}{l|lllllllll}
+ colors &1  &2  &3  &$\cdots$ &$n-1$ &$n$ &$n+1$ &$\cdots$ &$x$  \\
+  \hline
+ \# colorings &0  &0  &0  &$\cdots$ &$0$ &$n!$ &$\binom {n+1} k n!$ &$\cdots$ &$\binom x n {n!}$ 
+\end{tabular}
+\end{table}
+
+For a tree $T$, we have:
+\begin{table}[h]
+  \centering
+  \label{tree-table}
+  \begin{tabular}{l|lllll}
+    colors &$1$ &$2$ &$3$ &$\cdots$ &$x$\\
+    \hline
+    colorings &$0$ &$1$ &$3\cdot 2^{n-1}$ &$\cdots$ &$x{(x-1)}^{n-1}$
+  \end{tabular} 
+\end{table}
+
+Let $f(k)$ denote the number of different $k$-partitions of $G$. Then
+$$P_G(x) = \sum_{k=1}^{|V|} f(k)\cdot x(x-1)\cdots(x-n+1)$$
+
+``It's a polynomial in $x$!''
+
+\section{Actually calculating that}
+How can we simplify a graph?
+\begin{itemize}
+\item Delete an edge to get $G-e$.
+\item Contract an edge to get $G/e$.
+\end{itemize}
+
+\begin{prop}
+  The chromatic polynomial $P_G$ satisfies
+  $$P_G = P_{G-e} - P_{G/e}.$$
+\end{prop}
+
+\section{The reliability polynomial}
+What is the probability that $G$ remains connected after removing edges with
+probability $1-p$?
+
+Call this $R_G(p)$. We have that
+
+\begin{thm}
+$$R_G(p) = pR_{G/e}(p) + (1-p)R_{G-e}(p)$$
+\end{thm}
+
+In $G/e$, $e$ does not fail. In $G-e$, $e$ necessarily fails. This is
+essentially what the proof consists of.
+
+\end{document}

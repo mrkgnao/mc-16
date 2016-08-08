@@ -1,0 +1,578 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsthm,amsmath,amsfonts,amssymb}
+\usepackage{enumerate}
+
+\usepackage[margin=0.5in]{geometry}
+\newcommand{\Mod}[1]{\ (\text{mod}\ #1)}
+
+\newcommand\dif{\mathop{}\!\mathrm{d}}
+\newcommand{\I}[1]{\mathcal{I}(#1)}
+\newcommand{\V}[1]{\mathcal{V}(#1)}
+\newcommand{\kn}{k[x_1,x_2,\ldots,x_n]}
+\newcommand{\Rn}{R[x_1,x_2,\ldots,x_n]}
+\newcommand{\Af}{{\Bbb A}^n}
+\newcommand{\Ak}{{\Bbb A}_k^n}
+\newcommand{\Akn}[1]{{\Bbb A}_k^#1}
+\newcommand{\ARn}[1]{{\Bbb A}_{\Bbb R}^#1}
+\newcommand{\An}[1]{{\Bbb A}^#1}
+\newcommand{\fr}[1]{\mathfrak #1}
+\newcommand{\C}{\mathbb C}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\Zn}[1]{\mathbb Z_{#1}}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\R}{\mathbb R}
+\newcommand{\F}[1]{\mathbb F_#1}
+\newcommand{\Fpn}[2]{\mathbb F_{#1^#2}}
+\newcommand{\chn}[1]{C_\bullet(#1)}
+\newcommand{\bkt}[1]{\langle #1 \rangle}
+\newcommand{\gal}[2]{\text{Gal}(#1/#2)}
+\newcommand{\iv}[1]{#1^{-1}}
+\newcommand{\oo}[1]{\mathcal O_{#1}}
+\newcommand{\pp}{\mathfrak p}
+\newcommand{\mm}{\mathfrak m}
+\newcommand{\ok}{\mathcal O_K}
+\newcommand{\ol}{\mathcal O_L}
+\newcommand{\tr}[2][L/K]{\text{Tr}_{#1}(#2)}
+\newcommand{\nm}[2][L/K]{\text{Nm}_{#1}(#2)}
+\newcommand{\Nm}[1]{\text{Nm}(#1)}
+\newcommand{\Tr}{\text{Tr}}
+\newcommand{\Id}[1]{\text{Id}(#1)}
+\newcommand{\Cl}[1]{\text{Cl}(#1)}
+\newcommand{\Prin}[1]{\text{Prin}(#1)}
+\newcommand{\idok}{\Id \ok}
+\newcommand{\clok}{\Cl \ok}
+\newcommand{\clk}{\Cl K}
+\newcommand{\ab}[1]{#1^{\text{ab}}}
+\newcommand{\ut}[1]{#1^\times}
+\newcommand{\ur}[1]{#1^{\text{ur}}}
+\newcommand{\prinok}{\Prin \ok}
+
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Frac}{Frac}
+
+\newcommand{\galqp}{\gal {\overline{\Q_p}} {\Q_p}}
+\newcommand{\galfp}{\gal {\overline{\F p}} {\F p}}
+\newcommand{\fix}[1]{\text{Fix}(#1)}
+\newcommand{\kp}{K_\pp}
+
+\theoremstyle{definition}
+\newtheorem*{lem}{Lemma}
+\newtheorem*{thm}{Theorem}
+\newtheorem*{cor}{Corollary}
+\newtheorem*{defn}{Definition}
+\newtheorem*{example}{Example}
+
+\title{Algebraic number theory}
+\author{Soham}
+\date{July 2016}
+
+\begin{document}
+\maketitle
+ 
+\section{Day 1}
+\begin{defn}
+ A \textit{number field} is a finite extension of $\Q$.
+\end{defn}
+
+Some examples of number fields are:
+\begin{enumerate}
+\item $\Q$
+\item $\Q(i)$
+\item $\Q(\sqrt 2)$
+\item $\Q(\sqrt 2, \sqrt 3)$
+\end{enumerate}
+
+Note that the last example is not a primitive extension.
+\begin{thm}[Primitive element theorem] 
+  If $K/\Q$ is a finite extension, then $\exists \alpha\in K$ with $K=\Q(\alpha)$.
+\end{thm}
+
+\subsection{Invariants of a number field}
+\begin{enumerate}
+\item $\gal K\Q$
+\item $[K:\Q]$
+\item ???
+\end{enumerate}
+
+Note that our extensions will not always be Galois. We get separability for free
+since we are working over $\Q$, which has characteristic zero, but we might not
+have normality.
+
+\subsection{The ring of integers}
+\begin{defn}
+ If $\alpha\in K$, we say that $\alpha$ is an \textit{algebraic integer} if it
+ satisfies a monic polynomial with integer coefficients. 
+\end{defn}
+\begin{defn}
+ The (a priori) set of algebraic integers in $K$ is denoted $\ok$.
+\end{defn}
+
+\begin{defn}
+ The \textit{discriminant} of a number field is an invariant associated to $\ok$
+ that measures how ``complicated'' or ``big'' $K$ is. 
+\end{defn}
+
+\subsection{Traces and norms}
+Let $L/K$ be a field extension, and $\beta\in L$. We have a natural map
+
+\begin{align*}
+  m_\beta : &L\to L \\
+            &x\mapsto \beta x
+\end{align*}
+
+which is linear, and hence we have maps
+
+$$\text{Tr}_{L/K}: L\to K, \text{Nm}_{L/K}: L\to K$$
+
+corresponding to the trace and the determinant respectively.
+
+Fact: $\nm {\alpha\beta} = \nm {\alpha} \nm{\beta}$
+
+Choose a basis $\beta_i$ for $\ok$ (as a $\Z$-module.)
+The discriminant $\Delta_K = \det({\tr [K/\Q] {\beta_i\beta_j}})$ is another invariant.
+
+\begin{thm}
+ Given $n, M$ positive integers, there are finitely many number fields $K$ with
+ $[K:\Q] = n$ with $\Delta_K = M$. 
+\end{thm}
+
+\begin{thm}
+  If $B\subseteq\ok$ is a subring, define $\Delta_B$ similarly.
+  $\Delta_B\neq 0 \implies B$ has finite index in $\ok$. Also,
+  $$\Delta_B = [\ok:B]^2\cdot\Delta_K$$
+  so we can see whether we've ``found'' the whole ring of integers by looking at
+  whether $\Delta_B$ is squarefree, and, if not, we know what index the subgroup
+  we're looking for has. 
+\end{thm}
+
+\begin{thm}[Dirichlet's unit theorem]
+  If $K$ is a number field of signature $(r,s)$, we have that
+  $$\ok^{\times} \cong \mu(K) \times \Z^{r+s-1}$$
+  where the signature is defined by letting $r$ be 
+\end{thm}
+
+\section{Day 2}
+\subsection{The trace pairing}
+The map
+
+\begin{align*}
+  \text{Tr}: &L\times L\to K \\
+             &(x,y) \mapsto \tr {xy}
+\end{align*}
+
+is bilinear.
+
+Recall that there is a natural map $V\times V^{\ast} \to K$ for $V$ a vector space.
+
+Now, with the trace map in hand, we get a map
+\begin{align*}
+  &V\to V^{\ast}\\
+  &v\mapsto\text{Tr}(v,\textunderscore)
+\end{align*}
+
+\subsection{A legit non-noetherian ring}
+$\overline \Z$ is not noetherian: consider
+$$(\sqrt 2) \subset (\sqrt[4]2) \subset (\sqrt[8]2) \subset\cdots$$
+
+\subsection{Brief digression}
+\begin{defn}
+  A \textit{Dedekind domain} is an integral domain $R$ such that
+  \begin{enumerate}
+  \item $R$ is noetherian
+  \item $R$ is integrally closed (in its field of fractions) 
+  \item every nonzero prime ideal is maximal 
+  \end{enumerate}
+\end{defn}
+
+\begin{thm}
+  A discrete valuation ring (henceforth DVR) is a PID with a unique maximal
+  ideal.
+\end{thm}
+Facts:
+\begin{enumerate}
+\item DVRs are Dedekind domains.
+\item Guess: You have a valuation from the power of the generator of the maximal ideal
+  dividing an element.
+\end{enumerate}
+
+
+\begin{thm}
+  If $P$ is a prime ideal and $R$ is a Dedekind domain, $R_P$ is a DVR.
+\end{thm}
+
+$\ok$ is a Dedekind domain.
+Dedekind domains have unique factorization of ideals.
+
+\section{Day 3}
+\subsection{Norms of ideals}
+
+We want a definition for $\Nm I$ for $I$ an ideal of $\ok$, satisfying the
+following ``common-sense'' properties:
+
+\begin{enumerate}
+\item $\Nm {IJ} = \Nm I \Nm J$
+\item $\Nm \ok = 1$
+\item If $\beta\in K$ then $\Nm \beta = \Nm{(\beta)}$
+\end{enumerate}
+
+If $p\ok = P_1^{e_i}\cdots P_g^{e_g}$, we just need to define $\Nm {P_i}$. Note
+that, with $p\in K$ and $m=[K:\Q]$,
+
+$$\Nm p = p^m$$
+
+(the matrix associated to $p$ is just $pI_m$).
+
+We need $\Pi^g_{i=1} {\Nm P_i}^{e_i} = p^m$. Recall Swapnil's postulate
+
+$$\sum_{i=1}^g e_if_i = m$$
+
+which suggests the definition
+
+$$\Nm {P_i} = p^{f_i}$$
+
+or, alternatively,
+
+$$\Nm I = [\ok:I]$$
+
+\subsection{Fractional ideals}
+\begin{defn}
+ A \textit{fractional ideal} in $\ok$ is a nonzero, finitely generated
+ $\ok$-submodule of $K$.
+\end{defn}
+
+Fact/claim: any fractional ideal has the form $\frac1d I$ for some $d\in\ok$ and
+$I\subseteq\ok$ an ideal.
+
+For example, $\Z \supset J:= \frac13(5)$ is fractional, with $J \cdot (3) = (5)$.
+
+\begin{defn}[and theorem]
+  The set $\idok$ of fractional ideals of $\ok$ is a group, freely generated by
+  the prime ideals of $\ok$.
+\end{defn}
+
+\begin{defn}
+ A \textit{principal fractional ideal}  is one of the form $\alpha\ok$ for
+ $\alpha\in K^\times$.
+\end{defn}
+
+Let $\prinok$ denote the subgroup of principal fractional ideals. If $I$ is a
+fractional ideal, define
+$$\iv I = \{\alpha\in K: \alpha I\subseteq \ok\}$$
+
+\begin{defn}
+  The class group of $\ok$ is
+
+  $$\clok := \idok/\prinok.$$
+\end{defn}
+
+\begin{thm}[Minkowski]
+ There is a set of representatives for the ideal class group consisting of
+ integral ideals $I$ with
+ $$\Nm I \leq \frac{n!}{n^n}\left( \frac 4\pi \right)^s |\Delta_K|^{1/2}$$
+\end{thm}
+
+\begin{example}
+  $K=\Q(\sqrt{-14})$. The Minkowski bound is
+
+  $$\frac{2!}{2^2}\frac4\pi\sqrt{56} \approx 4.8 < 5$$
+\end{example}
+
+\section{Day 5}
+
+\subsection{Hilbert class fields}
+Let $K$ be a number field with class group $\clk$, satisfying the following:
+\begin{itemize}
+\item $\gal L K$ is abelian.
+\item Every prime $\mathfrak p$ in $K$ is unramified in $L$.
+\end{itemize}
+
+For such an \textit{unramified abelian} extension, we have
+
+$$\gal L K \cong \clk.$$
+
+Moreover, if $H \subseteq \clk$, then the subfield of $L$ corresponding to $H$
+under the Galois correspondence is the one where every ideal in $H$ splits completely.
+
+\begin{example}$K=\Q(\sqrt{-5}), L=\Q(\sqrt{-5},\sqrt{-1})$.
+  First note that $\Delta_K = -20$, and (with some more work) that $\Delta_L = -400$.
+  We have that
+  \begin{itemize}
+  \item $(2) = (2,1+\sqrt{-5}) = {(\alpha^3+2\alpha+1)}^2$
+  \item $(5) = (\sqrt{-5}) = {(-\alpha^3+\alpha^2-2\alpha+2)}^2{(\alpha^3+\alpha^2+2\alpha+2)}^2$
+  \end{itemize}
+
+  Notice that we made both ideals principal. This always happens:
+  \begin{thm}
+    If $I\subset\ok$ is an ideal, then $I\ol$ is principal.
+  \end{thm}
+\end{example}
+
+Start with a number field $K$, and take its Hilbert class field $L_0$. Then pass to
+the class field of \textit{that}, $L_1$. Does this tower ever stabilize?
+
+No: $K = \Q(\sqrt{-2\cdot 3\cdot5\cdot7\cdot11\cdot13})$ is a counterexample. (Somehow.)
+
+\subsection{Moduli}
+Define
+
+$$\mathfrak m = \Pi_{\pp} {\pp}^{m(\pp)}$$
+
+where we think of real and complex embeddings as ``infinite primes'', and let
+
+$$m(\pp) \geq 0$$
+$$m(\text{real embedding}) = 0\text{or}1$$
+$$m(\text{complex embedding}) = 0$$
+
+with finitely many exponents nonzero. Now, given $\mm$, let $S(\mm) = \{\pp:
+m(\pp) > 0\}$.
+
+Let $I^S$ be the product of the ideals not in $S$.
+$$K_{\mm,1} = \{\alpha\in K^\times : \alpha\equiv 1 \Mod{\pp^{m(\pp)}},
+\text{finite } \pp\}$$
+
+where $\alpha_\pp > 0$ for infinite $\pp\in\mm$ or something.
+
+\begin{defn}
+  The \textit{ray class group} is defined to be
+  $$C_m = I^{S(\mm)}/K_{\mm,1}.$$
+\end{defn}
+
+We make another definition.
+
+\begin{defn}
+ The \textit{ray class field} is a maximal abelian extension $L_\mm/K$
+ unramified except at places in $S(\mm)$.
+\end{defn}
+
+$K=\Q(\sqrt 6)$. We have an exact sequence
+
+$$0\to U/U_+ \to K^{\times}/K_+ \to C_\mm \to \clk \to 0.$$
+some stuff here that I don't understand about $K$ having two infinite places
+and a fundamental unit and $\Q(\sqrt{-2},\sqrt{-3})$ being the ``narrow class
+field'' or something
+
+\subsection{Completions}
+If $\pp$ is a prime ideal, define the completion $K_\pp$ to be the set of Cauchy
+sequences in $K$ under the $\pp$-adic metric
+
+$$|\alpha|_\pp = {\nm[K/\Q] \pp}^{-v_{\pp}(\alpha)}$$
+
+\subsubsection{Directed systems, inverse limits}
+Let $I$ be a poset and $A$ be a directed $I$-indexed directed set, with maps
+$f_{ij}:A_j\to A_i$ (we had a vote on which way the arrow should go).
+
+\begin{itemize}
+\item $\cdots \to \Z/{p^4} \to \Z/p^3 \to \Z/p^2\to\Z/p$.
+\item $A_n = \Z/n\Z$, $I = \mathbb N_{>0}$ with the partial order being induced
+  by divisibility.
+\item Let $K$ be an algebraically non-closed field that is not $\overline K$. If
+  $M\subseteq L\subseteq \Q$, then $\gal L K$ includes into $\gal M K$.
+  In fact, there is an exact sequence
+  $$0\to\gal L M\to \gal L K\to \gal M K \to 0.$$
+\end{itemize}
+
+Define the projective limit to be
+$$\{(a_i)_{i\in I} : f_{ij}(a_j) = a_i \text{ for }i\leq j\}.$$
+
+We have
+\begin{itemize}
+\item $\varprojlim \Z/p^n = \Z_p$.
+\item $\varprojlim \Z/n = \hat\Z$.
+\item We know that $\gal {\Fpn p n} {\F p} \cong \Z/n$ (with the
+  Frobenius as the generator). We get
+  $$\varprojlim \gal {\overline{\F p}} {\F p} = \hat\Z.$$
+\end{itemize}
+
+Also note that $K_\pp = \Frac(\varprojlim \ok/\pp^n)$.
+
+If $L/K$ is an extension of number fields, we have an inclusion of groups
+$L^\times \supset (L^{\text{ab}})^\times \supset K^\times$. As subgroups of
+$K^\times$,
+
+$$\nm[L/K] {\ut L} = \nm[\ab L/K] {\ut{(\ab L)}}$$
+
+so ``norms cannot see nonabelian behavior''.
+
+\subsection{Local class field theory}
+
+\begin{thm}[Some kind of ``main theorem''?]
+Let $K$ be a $p$-adic field, that is, a finite extension of $\Q_p$. We have
+$$\gal {\ab K} K = \ab{\gal {\overline K} K} \supset \ab{W_K}\cong \ut K.$$
+\end{thm}
+
+Now we switch to $K$ for a number field and $K_\pp$ its completion at $\pp$.
+(Why is this okay? Because we have
+\begin{thm}[Krasner's lemma]
+  Every $p$-adic field arises in this way.
+\end{thm}
+so it's fine.)
+
+There is an exact sequence
+
+$$0\to I_{\Q_p} \to \gal {\overline{\Q_p}} {\Q_p} \to \gal {\overline{\F p}} {\F
+  p} \to 0$$
+
+corresponding to the tower of fields
+
+$${\overline K}_\pp / \ab {K_\pp} / K_\pp.$$
+
+Now, $W_{\Q_p}$ is the preimage of $\Z\subset\hat\Z$ in $\galqp$.
+
+Abelian extensions of $K_\pp$ are in bijection with finite index subgroups of
+$\ut{K_\pp}$, where the map is
+$$L\mapsto \nm[L/\kp]{\ut L}$$
+and we have $\gal L \kp \cong {\ut \kp}/{\nm[L/\kp]{\ut L}}$.
+
+\subsubsection{What are the degree $2$ extensions of $\Q_p$?}
+Using the norm map $\ut{\Q_p}\to \Z$, we have an exact sequence
+$$0\to \ut{\Z_p} \to \ut{\Q_p} \to \Z\to 0.$$
+
+There are at least three:
+\begin{itemize}
+\item The image of ${(\ut{\Z_p})}^2$ in $\ut{Q_p}$ gives us one.
+\item The preimage of $2\Z$ gives us another.
+\item $\ldots$
+\end{itemize}
+
+\subsection{Galois cohomology}
+Let $G = \gal L K$, $M$ be a $G$-module, that is, a $\Z[G]$-module (so an
+abelian group with a ``sensible'' $G$-action).
+
+We define a sequence of functors (?) $H^r$, $r$ is a nonnegative integer.
+
+$$H^0(G,M) = M^G = \{m\in M: gm = m \forall g\in G\}.$$
+$$H^0(G,L) = K$$
+$$H^0(G,\ut L) = \ut K$$
+
+Now suppose that $M$ = ``automorphisms of an $L$-structure''.
+
+Morally, $H^1(G,M)$ measures how many ``$K$-structures'' there are that become
+isomorphic to $M$ after base change from $K$ to $L$. (Tensor with $L$?)
+
+$$H^1(G,L) = 0$$
+$$H^1(G,\ut L) = 0$$ 
+
+(The second generalizes to $GL_n(L)$.) What does $H^2(G,M)$ measure?
+
+$$H^2(G,L) = 0$$
+$$H^2(G,\ut L) = \Z/[L:K]$$
+
+\subsection{The Brauer group}
+In general, we call
+
+$$H^2(\gal {\overline K} K, \ut{\overline K})$$
+
+the Brauer group of $K$, and there is a bijection between the Brauer group and
+the set of central simple $K$-algebras up to equivalence.
+
+$K$ $p$-adic,
+$$H^2(\gal {\overline K} K, \ut{\overline K})\cong\Q/\Z$$
+
+For $K$ a number field,
+
+$$0\to H^2(\gal {\overline K} K, \ut{\overline K}) \to \bigoplus_{\pp \text{ prime}} H^2(\gal {\overline {K_\pp}} {K_\pp},
+\ut{\overline {K_\pp}}) \to \Q/\Z \to 0$$
+
+A \textit{quaternion algebra} over a number field $K$ looks like $\mathbb H_{a,b}$.
+
+\subsection{Cohomology!}
+Define
+
+$$C^r(G,M) = \{\text{maps } G^r\to M\}$$
+
+and boundary maps
+
+$$d:C^r(G,M)\to C^{r+1}(G,M)$$
+
+defined in such a way that $d^2 = 0$.
+
+\begin{example}
+ a 
+\end{example}
+
+We get a chain complex
+
+$$\cdots\to C^{r-1}(G,M)\to C^r(G,M)\to C^{r+1}(G,M) \to \cdots$$
+
+and the \textit{group homology} is defined to be
+
+$$H^r(G,M) = \ker d/\im d$$
+
+where we choose $d$ ``sensibly'', to quote Alfonso.
+
+\subsubsection{Another perspective}
+
+Let
+
+$$0\to A\to B\to C\to 0$$
+
+be an exact sequence of $G$-modules. Applying the ``fixed-points'' functor, we
+get
+
+$$0\to A^G\to B^G\to C^G$$
+
+and this sequence continues to the left using the right derived functors of
+$\_^G$, which are precisely group cohomology!
+
+$$0\to A^G\to B^G\to C^G\to H^1(G,A)\to H^1(G,B)\to H^1(G,C)\to H^2(G,A)\to\cdots$$
+
+We also have
+
+$$H^2(G,M)\cong\text{Ext}^1(G,M)$$
+
+so $H^2$ classifies all $E$s that fit into exact sequences $0\to M\to E\to G\to 0$.
+
+There is a cup product map
+
+$$H^r_T(G,M)\times H^s_T(G,N)\to H^{r+s}_T(G,M\otimes N)$$
+
+such that
+
+
+\section{The ``difficult'' integral}
+Define
+
+$$\zeta_K(s) = \sum_{I\neq 0} \frac1{{N(I)}^s} = \prod_{\text{prime } P}\frac1{1-{N(P)^{-s}}}$$
+$$L(\chi,s) = \sum_{I\neq 0} \frac{\chi(s)}{{N(I)}^s} = \prod_{\text{prime } P}\frac1{1-{\chi(P)}{N(P)^{-s}}}$$
+$$\chi_{\infty}(\alpha) = \begin{cases}
+  1 &\text{if } N(\alpha) > 0 \\
+  -1 &\text{if } N(\alpha) < 0
+  \end{cases}$$
+
+\section{Attempt $\#1$}
+Let
+
+$$F(a) = \int_0^1 \frac{\log(1+x^a)}{1+x} \dif x$$
+
+Let's try parts:
+
+\begin{align*}
+  F(a) &= \log(1+x^a)\log(1+x)\big|^1_0 -
+\int_0^1\frac{\log(1+x)}{1+x^a}ax^{a-1}\dif x\\
+       &= (\log 2)^2 - F(1/a)
+\end{align*} 
+
+so
+
+$$F(a) + F(1/a) = (\log 2)^2$$
+
+Now we expand the integrand of $F$ as a series:
+\begin{align*}
+F(a) &= \int_0^1 \left( \sum_{k=1}^\infty (-1)^{k-1} x^{k-1} \right) \left(
+  \sum_{n=1}^\infty \frac{(-1)^n x^{na}}n \right) \dif x \\
+     &= \int_0^1 \sum_{n,k=1}^\infty (-1)^{n+k} \frac{x^{an+k-1}}n \dif x \\
+     &= \sum_{n,k=1}^\infty (-1)^{n+k} \frac{x^{an+k}}{n(an+k)}\dif x \\
+     &= \sum_{n,k=1}^\infty \frac{(-1)^{n+k}} {n(an+k)}\dif x     
+\end{align*}
+
+Our integral is $F(w) = F(2+\sqrt 3)$. Note that $\bar w = 1/w$, so that
+
+$$F(w) - F(\bar w) &= \sum_{n,k=1}^\infty (-1)^{n+k} \frac{-2\sqrt 3}{n^2+4nk+k^2} $$
+
+$$T=\frac12$$
+
+
+\end{document}

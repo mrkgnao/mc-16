@@ -1,0 +1,266 @@
+\documentclass{article}
+
+\input{/home/mrkgnao/math/preamble.tex}
+
+\title{Semidirect products}
+\begin{document}
+\maketitle
+ 
+If $G$ is built out of $H$ and $K$, we might want to require
+\begin{enumerate}
+\item $H\leq G$, $K\leq G$
+\item $HK = \bkt{hk : h\in H, k\in K} = G$
+\item $H\cup K = \{e\}$
+\end{enumerate}
+
+Let's try just ``taking the union'' of two group presentations.
+$$\Z/2 \ast \Z/2 = \bkt{x,e|x^2=e} \ast \bkt{y,e|y^2=e} = \bkt{x,y|x^2=y^2=e}$$
+which is, upsettingly, an infinite group (note that $(xy)^m \neq (xy)^n$
+for $m\neq n$).
+
+We'll let this lead us to a definition:
+\begin{defn}
+  If $H=\bkt{H_g | H_r}$ and $K=\bkt{K_g|K_r}$, then their \textit{free product} is 
+  $$H\ast K:= \bkt{H_g\cup K_g | H_r\cup K_r, e_H=e_R}$$.
+\end{defn}
+
+Now note that the group we were hoping to get ($\Z/2\times\Z/2\cong V_4$, the
+Klein four-group) is recoverable as a quotient:
+
+$$\Z/2\ast\Z/2/\bkt{xy=yx} \cong V_4$$
+
+(this is in fact abelianization, in this special case).
+
+\begin{thm}
+ If $G$ satisfies the three relations at the beginning, it is isomorphic to a
+ quotient of $H\ast K$. 
+\end{thm}
+
+\begin{proof}
+ By the first isomorphism theorem, this is equivalent to a surjective
+ homomorphism going from $H\ast K$ to $G$. Define $\varphi: H\ast K\to G$ by
+ defining it to be the identity
+ $$\varphi(h) = h, \varphi(k) = k \; \forall h\in H, k\in K$$
+ on the subgroups $H,K\leq G$. Now extend this to all other words in the group
+ by imposing the homomorphism condition.
+
+ This is easily checked to be surjective, and we are done.
+\end{proof}
+
+\subsection{The direct product}
+Given $\{H_i\}_{1,\ldots,r}$, the direct product $\prod H_i$ is the group whose elements
+are of the form $(h_i)_i, h_i\in H_i$, and multiplication is defined elementwise.
+
+\begin{thm}
+  Let $G=\prod G_i$. Then
+  \begin{enumerate}
+  \item The $G_i$  embed ``sanely'' into $G$:
+    $$G_i\trianglelefteq G.$$
+  \item Cardinalities work out.
+    $$|G| = \prod |G_i|.$$
+  \item The $G_i$ are recoverable from $G$:
+    $$G_i \cong \frac{G}{G_1\times\cdots\times \hat{G_i}\times\cdots\times G_r}.$$
+  \end{enumerate}
+\end{thm}
+\begin{proof}
+ Well-known. 
+\end{proof}
+
+\begin{thm}
+  If $H,K\trianglelefteq G$, $H\cap K = \{e\}$, and $HK = G$, then $G\cong
+  H\times K$. 
+\end{thm}
+\begin{proof}
+  Notice that
+  \begin{align*}
+    [h,k] &= hkh^{-1}k^{-1} \\
+          &= h(kh^{-1}k^{-1}), \text{so } [h,k]\in H \\
+          &= (hkh^{-1})k^{-1}, \text{so } [h,k]\in K \\
+          &= e.
+  \end{align*} 
+  Now take $\varphi:H\times K\to G$ sending $(h,k)\mapsto hk$ which is a
+  homomorphism because $H$ and $K$ commute, and an isomorphism because $HK = G$.
+\end{proof}
+
+\begin{thm}[Structure theorem for finitely generated abelian groups]
+  If $G$ is an f.g. abelian group,
+  $$G\simeq \Z^r \times \Z/p_1^{n_1} \times\cdots\times \Z/p_k^{n_k}$$
+  where $r$ is unique and the $(p_i,n_i)$ are unique up to permutation.
+\end{thm}
+
+\section{Day 2}
+\subsection{Random theorem about dihedral groups}
+
+\begin{thm}
+  Let $D_{4n}$ be the symmetries of an $n$-gon, $n$ odd. Then
+$$D_{4n} \cong D_{2n} \times \Z/2$$
+\end{thm}
+
+\begin{proof}
+  As is well-known,
+  $$D_{4n} = \bkt{r,s|r^{2n} = s^2 = (sr)^2 = 1}$$
+  Now consider the subgroups
+  $$H=\bkt{r^2,s}, K=\bkt{r^n}\subset D_{4n}$$
+
+  \begin{itemize}
+  \item $H$ has index $2$, and is therefore normal. (The two cosets are $H$ and
+    $rH$.)
+  \item For $K$, note that $sr^ns = srssrssrss\cdots rsss = (srs)^ns$
+  \end{itemize}
+\end{proof}
+
+Now suppose that $H\trianglelefteq G, K\leq G, H\cap K=\{e\}, HK\leq G$.
+
+\begin{prop}
+ Given these assumptions, every element of $HK$ can be written uniquely as $hk$
+ for $h\in H, k\in k$. 
+\end{prop}
+
+\begin{proof}
+ Note that $h_1k_1=h_2k_2\implies h_2^{-1}h_1 = k_2k_1^{-1} = e$, so we have
+ uniqueness. For existence, consider
+
+$$kh = khk^{-1}k =  h'k, h'\in H\trianglelefteq G$$
+
+Given any long string, this gives us a way to ``pull all elements of $K$ to the
+right''.
+
+This gives $HK$ the same underlying set as $H\times K$, but the operation is
+different, in order to sidestep the non-normality (wlog) of $K$:
+$$(h_1k_1)\cdot(h_2k_2) := h_1(k_1h_2k_1^{-1})k_1k_2.$$
+\end{proof}
+
+\begin{defn}
+The \textit{automorphism group} of a group $G$, $\Aut(G)$, is the group of
+isomorphisms $G\to G$, where the operation is composition.  
+\end{defn}
+ 
+\begin{example}
+ $\Aut(\Z/n\Z) = \ut {(\Z/n\Z)}$. 
+\end{example}
+
+\begin{thm}
+ Let $H,K$ be groups, $\varphi:K\to\Aut(H)$ a group hom, $G$ be the set of pairs
+ $(h,k)$. Define the operation
+ $$(h,k)(h',k') = (h\varphi(k)(h'), kk').$$
+ \begin{enumerate}
+ \item This makes $G$ a group with order $|H|\cdot|K|$.
+ \item $(H,e)$ and $(e,K)$ are subgroups (where one hopes the notation
+   will be self-explanatory) that are isomorphic to $H$ and $K$ respectively.
+ \item With this identification,
+   \begin{enumerate}
+   \item $H\trianglelefteq G$
+   \item $H\cap K = \{e\}$
+   \item For all $h\in H, k\in K$, $khk^{-1}=\varphi(k)(h)$
+   \end{enumerate}
+ \end{enumerate}
+ We denote this group $H\rtimes_\varphi K$.
+\end{thm}
+
+\begin{proof}
+  Most of the cases are ones where there is essentially only one way to proceed,
+  and it is a good idea to run through them mentally. 
+\end{proof}
+
+\begin{thm}
+  If $H\trianglelefteq G, K<G, H\cap K=1$, and if $\varphi:K\to\Aut(G)$ is
+  conjugation, then $HK\cong H\rtimes K$.
+\end{thm}
+
+\begin{prop}
+  If $H,K$ are groups, and $\varphi:K\to\Aut(G)$, TFAE:
+  \begin{enumerate}
+  \item The identity set-function $H\rtimes K\to H\times K$ is a homomorphism.
+   
+  \item $\varphi$ is the trivial map.
+
+  \item $K\trianglelefteq H\rtimes K$.
+  \end{enumerate}
+\end{prop}
+
+Let $H$ be abelian, $K=\Z/2$, let $\varphi:K\to\Aut(H)$ send $\varphi(1)$ to
+$\varphi(1)(x) = x^{-1}$. This gives a way to make $H\rtimes \Z/2$, when $H$ is
+cyclic, this is dihedral.
+
+Also:
+\begin{itemize}
+\item $\Z/n\rtimes \Z/2\cong D_{n}$
+\end{itemize}
+
+If $|G|=pq$, $p<q$ both prime, then
+
+$$\exists P\leq G, Q\trianglelefteq G, |P|=p,|Q|=q$$
+(by Sylow theorems), $P\cap Q=\{e\}$, so
+
+$$G\cong Q\rtimes P\cong \Z/q\rtimes\Z/p$$
+
+We need a $\phi:\Z/p\to \Aut(\Z/q)$, which exists iff $p|q-1$. If not, $G\cong \Z/pq$.
+
+\subsection{Amalgamated free products}
+Let $H\leq G, K\leq G, H\cap K = N'$. 
+
+$$
+\begin{tikzcd}
+  N' \arrow[r] \arrow[d] & K\arrow[d,  "f_2"] \\
+  H \arrow[r, "f_1"] &H\ast K/N
+\end{tikzcd} 
+$$
+
+where
+$$N=\bkt{f_1(n)f_2(n)^{-1} | n\in N'}$$
+
+Now let $H\trianglelefteq G, K\twoheadleftarrow G, H\cap K=\{e\}$. ???
+
+Consider short exact sequences of the form
+$$1\longrightarrow A\overset{i}{\longrightarrow} E\overset \pi\longrightarrow G
+\longrightarrow 1.$$
+
+with $G,A,E$ finite, $A$ abelian. This is called an extension of $G$ by $A$. \\
+Given this, we get an action of $G$ on $A$ as follows:
+
+For each $g\in G$, let $e_g=\pi^{-1}(g)$. $e_g$ acts on $i(A)$ by conjugation
+$e_gi(a)e_g^{-1}$ since $i(A)\trianglelefteq E$ and $A\simeq i(A)$, so $e_g$
+acts on $A$.
+
+Any other element in $\pi^{-1}(g)$ is of the form $e_gi(a)$ since
+
+$$e_gi(a')i(a)(e_gi(a'))^{-1} = e_gi(a'a{a'}^{-1})e_g^{-1} = e_gi(a)e_g^{-1}$$
+
+Given two extensions, they are equivalent if $\exists \beta:E_1\to E_2$ such
+that
+
+\begin{tikzcd}
+  1\arrow[r] &A\arrow[r]{i_1}\arrow[d,equal] &E_1\arrow[r]{\pi_1}\arrow[d]{\beta} &G\arrow[r]\arrow[d,equal] &1\\
+  1\arrow[r] &A\arrow[r]{i_2} &E_2\arrow[r]{\pi_2} &G\arrow[r] &1
+\end{tikzcd} 
+
+commutes.
+
+\begin{prop}
+ Equivalent extensions give the same $G$-module structure on $A$. 
+\end{prop}
+
+\begin{defn}
+ Given a $G$-module $A$, a function $f:G\times G\to A$ is a \textit{$2$-cocycle}
+ if
+ $$f(g,h) - g\cdot f(h,k) + f(gh,k) - f(g,hk) = 0.$$ 
+\end{defn}
+
+\begin{defn}
+ Given a $G$-module $A$, a function $f:G\times G\to A$ is a \textit{$2$-coboundary}
+ if $\exists f_1:G\to A$ such that
+ $$f(g,h) = g\cdot f_1(h) - f_1(gh) + f_1(g).$$ 
+\end{defn}
+
+Note that $B^2(G,A)\trianglelefteq H^2(G,A)$. We define, as one would expect,
+the second group cohomology
+
+$$H^2(G,A) \cong \frac{Z^2(G,A)}{B^2(G,A)}.$$
+
+
+\begin{thm}
+  There exists a bijection
+  $$\{\text{equivalence classes of extensions } E\}\longleftrightarrow H^2(G,A)$$
+  and the identity of $H^2(G,A)$ corresponds to direct products.
+\end{thm}
+\end{document}

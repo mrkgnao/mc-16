@@ -1,0 +1,218 @@
+\documentclass{scrreprt}
+
+\input{/home/mrkgnao/math/preamble.tex}
+
+\title{MUYD 2016: Etale cohomology and the Weil conjectures}
+\author{David Roe, transcribed by Soham}
+\date{August 2016}
+\begin{document}
+\maketitle
+
+Stuff I know that I'm not writing: varieties, sheaves, equalizer exact sequence,  local rings, lrs, schemes
+
+\section{Background}
+Let $X$ be a smooth projective variety. We denote the number of points on it
+over a finite field as $\#X(\F_q)$. These numbers are of arithmetic interest
+since they give us an analogue of the Riemann hypothesis, using a new zeta
+function.
+
+We can assemble these into a generating
+function
+
+$$\zeta(X,t)=\exp\left( \frac{t^n}m \#X(\F_q) \right) $$
+
+The Weil conjectures are a series of unexpected-sounding statements about
+$\zeta$ that parallel the Riemann hypothesis.
+
+\section{Weil cohomology theories}
+Let $K$ be a field of char $0$.
+\begin{defn}
+  A \textit{Weil cohomology theory} is a contravariant functor
+  $$H^\ast: \{\text{smooth proj varieties over } k=\F_p\}\to\{\text{graded }K\text{-algebras}\}$$
+  such that, with $\dim X=n$,
+  \begin{itemize}
+  \item $H^i(X)$ is a finite-dimensional $K$-vector space
+  \item $H^r(X) =
+    \begin{cases}
+      0, &i=0\\
+      K, &i = 2n\\
+      0, &i>2n
+    \end{cases}
+    $
+  \item Poincaré duality: there is a nondegenerate pairing
+    $$H^i(X)\times H^{2n-i}(X)\to H^{2n}(X) = K$$
+    Note the similarity to de Rham cohomology:
+    $$H^i(X) \times H^{n-i}(X) \to H^{n}(X) \overset{\int_M}\longrightarrow \R$$
+  \item Künneth formula:
+    $$H^\ast(X\times Y) = H^\ast(X)\otimes H^\ast(Y)$$
+  \item ``Some condition'' on algebraic cycles: there is a \textit{cycle class map}
+    $$Z^i(X)\to H^{2i}(X)$$
+  \item ``Weak Lefschetz.'' If $H\subset \PP^m$ is a hyperplane and $W=H\cap X$,
+    the map $W\to X$ gives an isomorphism
+    $$H^i(X)\to H^i(W)$$
+    for $i\leq n-2$, and an injection $i=n-1$.
+  \item Let $w\in H^2(X)$ be the image of the cycle $W$ under the cycle class
+    map. Define
+    $$L:H^i(X)\to H^{i+2}(X)$$
+    sending $x$ to $x\cdot w$. Then $L^i:H^{n-i}(X)\to H^{n+i}(X)$ is an isomorphism.
+  \end{itemize}
+\end{defn}
+
+David: ``So, this is the definition of a Weil cohomology theory. ... Sweet.''
+
+Frobenius is a map $X(\overline k)\to X(\overline k)$. It acts as the $q$th
+power on coordinates.
+
+Now define
+$$X(R) = \homf[{\sf{Sch}}/k]{\Spec R}X$$
+
+Let $X$ be a smooth projective variety over an algebraically closed field, and
+$\varphi:X\to X$.
+
+$$\#\text{fixed points of }\varphi = \sum {(-1)}^i \Tr(\varphi |H^i(X))$$
+
+Let $\varphi = \Frob$. Then the fixed points are exactly the points of
+$X(\F_q)$. (Replacing with $\Frob^m$ gives you $X(\F_{q^m})$.)
+
+\begin{lem}
+  If $\psi:V\to V$ is a linear map of vector spaces,
+  with characteristic polynomial
+  $$\det(1-\psi T|V)=P_\psi(T)$$
+  and $P_\psi(T) = \prod_i(1-c_i T)$, then
+  $$\Tr(\psi^m|V) = \sum c_i^m.$$
+
+  Thus $$\log\frac1{P_\psi(T)} = \sum_{m=1}^\infty \Tr(\psi^m|V)\frac{T^m}m.$$
+\end{lem}
+
+\begin{thm}
+  $$\zeta(X,T) = \prod P_i(T)^{(-1)^{i+1}}$$
+  where
+  $$P_i(T) = \det(1-\Frob T|H^i(X))$$
+\end{thm}
+
+\begin{proof}
+  \begin{align}
+   \zeta(X,T) &= \exp\left(\sum_{m=1}^\infty \frac{N_m}m T^m\right) \\
+              &= \exp\left( \sum_m \sum_{r=0}^{2n} (-1)^r \Tr(\Frob^m | H^r(X)) \frac{T^m}m \right)\\
+              &= \prod_{r=0}^{2n} \exp\left( \Tr(\Frob^m | H^r(X)) \frac{T^m}m \right)^{{(-1)}^r} \\
+              &= \prod_{r=0}^{2n} P_i(T)^{{(-1)}^{r+1}}.
+  \end{align}
+\end{proof}
+
+Idea: etale maps are the analogues of local diffeomorphisms. If $X,Y$ are smooth
+varieties, $\varphi:X\to Y$ is etale if it is an isomorphism on each tangent
+space.
+
+\begin{defn}
+ If $R$ is a ring, and $0\to A\to B\to C\to 0$ is an exact sequence of
+ $R$-modules, then a ring map $R\to S$ is \textit{flat} if
+
+ $$0\to A\otimes_R S\to B\otimes_R S\to C\otimes_R S\to 0$$
+
+ is exact.
+\end{defn}
+
+\begin{defn}
+  A map $f:R\to S$ is etale if
+  \begin{enumerate}
+  \item $S$ is fg as an $R$-algebra
+  \item $S$ is a flat $R$-algebra
+  \item For every maximal ideal $\mm$ of $S$, let $\pp=f^{-1}(\mm)$.
+    Then $S_\mm/f(\pp)S_\pp$ is a finite and separable field extension of $R_\pp/\pp R_\pp$.
+  \end{enumerate}
+\end{defn}
+
+\begin{itemize}
+\item If $R=k$ is a field, the etale maps are $k\to \prod_i L_i$ with $L_i/k$
+  finite and separable. (In fact, such products are called \textit{etale
+    algebras}.)
+\item If $R$ is a Dedekind domain, $L$ a finite separable extension of $k:=
+  \Frac R$, $S$ the integral closure of $R$ in $L$, let $y\in\bigcap$ ramified
+  primes of $S$. Then $S[1/y]$ is etale, and every etale $R$-algebra is a
+  product of such.
+\end{itemize}
+
+Picture of etale maps: finitely branched coverings, a la $\C\setminus\{0\}\to\C^2$,
+$z\mapsto z^2$. $0$ is a ramification point; kill it with fire.
+
+\section{Sites}
+\begin{defn}
+ A \textit{site} is a category $\CC$ with distinguished collections of maps
+ $(U_i\to U)_{i\in I}$ called coverings such that
+
+ \begin{enumerate}
+ \item Given a diagram $$
+   \begin{tikzcd}
+     &V_i\ar[r]\ar[d]&U_i\ar[d]\\
+     &V\ar[r]&U
+   \end{tikzcd}
+   $$
+
+   pullbacks exist and $(V_i:= V\times_U U_i \to V)_{i\in I}$ is a covering.
+ \item If $(U_i\to U)$ is a covering and $(V_{ij}\to U_i)$ are coverings,
+   then $$(V_{ij} \to U_i\to U)$$ is too.
+ \item $(U\to U)$ is a covering.
+ \end{enumerate}
+\end{defn}
+
+
+Sites that matter:
+\begin{itemize}
+\item Zariski site: open sets in the Zariski topology 
+\item Small etale site of $X$: objects are maps $U\overset{\text{et}}\to X$
+\item fppf, fpqc, big etale
+\end{itemize}
+
+A covering is a collection of maps
+$$U_i\to U$$ which is locally finite (look at a point, look at an affine open
+around it; want that finitely many images of $U_i$ intersect the affine open)
+and jointly surjective (as a set, $U = \cup\im(U_i\to U)$).
+
+$\Shv_\Ring(\Et(X))$ is an abelian category.
+
+There is a functor $$\Shv_\Ring(\Et(X))\to \Ring$$ of the form
+$$F\mapsto \Gamma(F,X):= F(X\overset\id\to X)$$
+which is left-exact.
+
+If
+
+$$0\to F\to G\to H\to 0$$
+
+is exact, then
+
+$$0\to \Gamma(F,X)\to\Gamma(G,X)\to\Gamma(H,X)\to\cdots\to???$$
+
+We say a sheaf $I$ is \textit{injective} if
+
+\[
+  \begin{tikzcd}
+    &F\ar[r,dashed]{\exists\!}&I\\
+    &F'\ar[u,left hook]\ar[ur]
+  \end{tikzcd} 
+\]
+
+If $F$ is an etale sheaf then there exists an injective etale sheaf I and a map
+
+$$0\to F\hookrightarrow I_1\to I_2\to\cdots$$
+
+where you take cokernels and embed into injectives at every step (start by
+noticing that $0\to F$ is not surjective, so you have a nontrivial cokernel,
+etc)
+
+Can take $F$ to be the constant sheaf $\Z/l^m$, then
+get $H^r(X,\Z/l^m)$. Take an inverse limit to get
+
+$$H^r(X,\Q_l) = H^r(\Z_l)\otimes_{\Z_l}\Q_l$$
+
+\section{Also, let's just prove Fermat's last theorem}
+\subsection{(because why not)}
+Note that we can assume $n=4$ or $n=l$ prime. $n=3,4$ are classical descent
+arguments of Fermat and Euler.
+
+Suppose $a^l+b^l = c^l$ is a solution. Consider
+
+$$E:y^2 = x(x-a^l)(x-b^l)$$
+
+(complete later; I went to breakfast at this point)
+
+\end{document}

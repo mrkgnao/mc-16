@@ -1,0 +1,35 @@
+\documentclass{article}
+
+\input{/home/mrkgnao/math/preamble.tex}
+
+\title{The Yoneda lemma}
+\author{Sachi, transcribed by Soham}
+\date{August 2016}
+\begin{document}
+\maketitle
+
+
+\begin{itemize}
+\item Covariant hom-functor: $\hhom a$, with the action on morphisms given by
+  maps $\homf a x\to\homf a y$, $$f\mapsto (-\circ f).$$
+\item Contravariant hom-functor: $\homm a$, with the action on morphisms given by
+  maps $\homf a x\leftarrow\homf a y$, $$f\mapsto (f\circ -).$$
+\end{itemize}
+
+\begin{defn}
+ We say that a functor $F: C\to\Set$ is \textit{representable} if there exists a
+ natural transformation such that
+ $$\alpha: F\simeq\hhom a.$$
+\end{defn}
+
+Examples:
+\begin{itemize}
+\item Forgetful functors, e.g. $F: \Grp\to\Set$. Notice that $\homf \Z G$ is
+  completely determined by where $1$ goes, so it is sort of like the set of maps
+  from a one-point test space. So elements of $\homf\Z G$ correspond to elements
+  of $G$.
+\end{itemize}
+
+All of this is trivial, of course.
+
+\end{document}

@@ -1,0 +1,104 @@
+\documentclass{article}
+
+\input{/home/mrkgnao/math/preamble.tex}
+
+\title{The BSD conjecture}
+\author{David, transcribed by Soham}
+\date{August 2016}
+\begin{document}
+\maketitle
+
+\begin{thm}[Mordell-Weil]
+ $E(\Q)$ is a finitely generated abelian group. 
+\end{thm}
+
+This gives us that
+$$E(\Q) = T\oplus \Z^r$$
+where $T$ is torsion, and we know about its structure due to a (very cool) theorem of Mazur.
+
+\begin{thm}[Hasse]
+  If $E/\F_p$ is an elliptic curve, define
+  $$a_p = p+1-\#E(\F_p).$$
+  Then $|a_p|\leq 2\sqrt p$.
+\end{thm}
+
+One expects half ....
+
+Recall that
+
+$$\Delta = -16(4a^3+27b^2)$$
+
+is the discriminant.
+
+If $E$ has bad reduction mod $p$, there are three cases:
+\begin{enumerate}
+\item A triple point, then the group of points (leaving out the singular point)
+  is isomorphic to the additive group $\F_p$. ``Additive''. $a_p = 0$.
+\item A double point, with tangent lines having slope in $\F_p$. ``Split
+  multiplicative.'' $a_p = 1$.
+\item A double point, with tangent lines having slope in $\F_{p^2}\\\F_p$.
+  ``Nonsplit multiplicative''. $a_p = -1$.
+\end{enumerate}
+
+Algorithms that decide which of these is the case do exist.
+
+\section{$L$-functions}
+\begin{defn}
+  The $L$-function of $E$ is
+  $$L(E,s) := \prod_{p|\Delta} \frac1{1-a_pp^{-s}}
+              \prod_{p\not|\Delta} \frac1{1-a_pp^{-s}+p\cdot p^{-2s}} =
+              \sum_{n=1}^\infty \frac{a_n}{n^s}$$
+\end{defn}
+
+This ``degree-$2$ $L$-function'' converges for $\real(s)>\frac32$. Analytically
+continue?
+
+We want a ``completed'' $L$-function that has a nice functional equation. Recall
+that
+
+$$\Gamma(z) = \int_0^\infty t^{z-1}e^{-t} \dif t$$
+
+Define the \textit{conductor} of $E$ to be
+$$N = \prod_{p|\Delta}p^{e_p}$$
+where $e_p = 1$ if multiplicative reduction, $2$ if additive reduction (these
+are for $p\geq 5$).
+
+$\varepsilon =\pm 1$ is the ``root number''.
+
+Define
+
+$$\Lambda(E,s) = N^{s/2}{2\pi}^{-s}\Gamma(s)L(E,s)$$
+
+\begin{thm}
+  $\Lambda(E,s)$ analytically continues to all of $\C$, and
+  $$\Lambda(E,2-s) = \varepsilon\Lambda(E,s).$$
+\end{thm}
+
+\begin{proof}
+ $f_E = \sum a_nq^n$, $q=\exp(2\pi i nz) \in S_0(\Gamma_0(N))$. 
+ Now a result of Hecke shows that
+ $L(f_E,s)=\sum a_nn^{-s}$, the $L$-function of the modular form, has an
+ analytic continuation and satisfies a functional equation.
+\end{proof}
+
+\begin{conj}[BSD]
+  If $L(E,s) = \alpha_m(s-1)^m + \cdots$ is the Taylor series around $s=1$, then
+  $$\text{(analytic rank) }m= r \text{ (algebraic rank)}$$ 
+  and
+  $$\alpha = \frac{\Omega_E \Reg(E) \#\shah(E/\Q)\cdot \prod_p c_p}{(#T)^2}$$
+  where
+  $$\Omega_E = \int_{E(\R)}\frac{\dif x}{2y+a_1x+a_3}$$
+  is a \textit{period} (somehow related to de Rham!), writing $y^2+a_1xy+a_3y =
+  x^3+a_2x^2+a_4x+a_6$. (``Minimal model'', minimal discriminant.)
+\end{conj}
+
+\subsection{Heights}
+
+
+\section{Moar cohomology, because why not}
+We have a short exact sequence over $\bar\Q$:
+$$0\to E[n]\to E \overset{n}{\to} E\to 0$$
+
+and, taking fixed-points, we get a long exact sequence in cohomology
+
+\end{document}
